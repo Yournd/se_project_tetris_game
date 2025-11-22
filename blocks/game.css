@@ -1,0 +1,15 @@
+.game__info-panel {
+  color: #c8d746;
+  margin: 10px 0 auto 0;
+}
+
+.game__score,
+.game__level {
+  margin: 5px;
+  padding: 0;
+}
+
+#game {
+  border: 2px solid #c8d746;
+  margin: 10px;
+}

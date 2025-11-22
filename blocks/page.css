@@ -1,0 +1,21 @@
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page__title {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  color: #c8d746;
+  padding: 0;
+  margin: 0;
+  max-width: 100px;
+}
+
+body {
+  background-color: #232023;
+  margin: 0;
+  padding: 0;
+}
