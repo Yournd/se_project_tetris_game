@@ -1,15 +1,22 @@
 .game__info-panel {
+  position: fixed;
   color: #c8d746;
-  margin: 10px 0 auto 0;
+  font-size: 1.2rem;
+  top: 50px;
+  left: 850px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .game__score,
-.game__level {
+.game__level,
+.game__lines {
   margin: 5px;
   padding: 0;
 }
 
 #game {
   border: 2px solid #c8d746;
-  margin: 10px;
+  margin: 40px 0 0;
 }

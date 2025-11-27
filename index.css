@@ -1,2 +1,4 @@
+@import url(./blocks/start-screen.css);
+@import url(./blocks/end-screen.css);
 @import url(./blocks/game.css);
 @import url(./blocks/page.css);

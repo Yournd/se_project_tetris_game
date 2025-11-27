@@ -10,11 +10,25 @@
     <div class="page">
       <h1 class="page__title">Simple Tetris Game</h1>
       <canvas id="game" width="300" height="600"></canvas>
-      <div class="game__info-panel">
-        <p class="game__score">Score: <span id="score">0</span></p>
-        <p class="game__level">Level: <span id="level">1</span></p>
-        <!-- Add elements for next piece, hold piece if desired -->
-      </div>
+    </div>
+    <div class="game__info-panel">
+      <p class="game__score">Score: <span id="score">0</span></p>
+      <p class="game__level">Level: <span id="level">1</span></p>
+      <p class="game__lines">Lines: <span id="lines">0</span></p>
+    </div>
+      <div id="start" class="start-screen">
+        <div class="start-screen__content">
+            <h2 class="start-screen__title">Press Start To Begin</h2>
+            <p class="start-screen__instructions">Arrow up to Rotate, Arrow down to free fall, Arrow left to move left, Arrow right to move right</p>
+            <button type="button" class="start-screen__btn">Start</button>
+        </div>
+    </div>
+      <div id="end" class="end-screen_inactive">
+        <div class="end-screen__content">
+            <h2 class="end-screen__title">Try Again!</h2>
+            <p class="end-screen__instructions">Hit the button below to restart the game!</p>
+            <button type="button" class="end-screen__btn">Retry</button>
+        </div>
     </div>
     <script src="./scripts.js"></script>
   </body>
