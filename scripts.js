@@ -259,6 +259,7 @@ retryBtnSelector.addEventListener("click", e => {
     linesCleared = 0;
     scoreSelector.textContent = "0";
     levelSelector.textContent = "1";
+    linesSelector.textContent = "0";
     board = createBoard();
     update();
 });
