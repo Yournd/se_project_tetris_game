@@ -1,12 +1,19 @@
+.game__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
 .game__info-panel {
-  position: fixed;
-  color: #c8d746;
+  align-self: baseline;
+  margin-left: 5px;
+  color: #1f6f50;
   font-size: 1.2rem;
-  top: 50px;
-  left: 850px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
+  border: #1f6f50 1px solid;
 }
 
 .game__score,
@@ -16,7 +23,10 @@
   padding: 0;
 }
 
+#game__held-piece {
+  margin: 5px;
+}
+
 #game {
-  border: 2px solid #c8d746;
-  margin: 40px 0 0;
+  border: #1f6f50 1px solid;
 }

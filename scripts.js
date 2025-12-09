@@ -1,23 +1,36 @@
 const rows = 20;
 const cols = 10;
-const cell_size = 30;
+const heldRows = 5;
+const heldCols = 6;
+const heldCellSize = 20;
 const scoreSelector = document.querySelector("#score");
 const levelSelector = document.querySelector("#level");
+const swapsSelector = document.querySelector("#swaps");
 const startScreen = document.querySelector("#start");
 const startBtnSelector = startScreen.querySelector(".start-screen__btn");
 const endScreen = document.querySelector("#end");
 const retryBtnSelector = endScreen.querySelector(".end-screen__btn");
 const linesSelector = document.querySelector("#lines");
-
+const screen_size = window.innerWidth;
+const mobileBtnContainer = document.querySelector("#mobile__btns");
+const rotateBtn = mobileBtnContainer.querySelector(".mobile__rotate-btn");
+const leftBtn = mobileBtnContainer.querySelector(".mobile__left-btn");
+const rightBtn = mobileBtnContainer.querySelector(".mobile__right-btn");
+const dropBtn = mobileBtnContainer.querySelector(".mobile__drop-btn");
+const holdBtn = mobileBtnContainer.querySelector(".mobile__hold-btn");
+const pageTitle = document.querySelector("#page__title");
 
 // ======== GAME STATE ========
 let dropInterval = 1000;   
 let dropCounter = 0;
 let lastTime = 0;
+let cell_size = 0;
+screen_size <= 755 ? cell_size = 20 :  cell_size = 30;
 
 let score = 0;
-let level = 0;
+let level = 1;
 let linesCleared = 0;
+let swaps = 1;
 
 const line_clear_points = [0, 100, 300, 500, 800];
 
@@ -28,12 +41,23 @@ canvas.width = cols * cell_size;
 canvas.height = rows * cell_size;
 ctx.scale(cell_size, cell_size);
 
+const heldCanvas = document.querySelector("#game__held-piece");
+const ctx2 = heldCanvas.getContext("2d");
+heldCanvas.width = heldCols * heldCellSize;
+heldCanvas.height = heldRows * heldCellSize;
+ctx2.scale(heldCellSize, heldCellSize);
+
 // ======== BOARD ========
 function createBoard() {
     return Array.from({ length: rows }, () => Array(cols).fill(0));
 }
 
+function createHeldBoard() {
+    return Array.from({ length: heldRows }, () => Array(heldCols).fill(0));
+}
+
 let board = createBoard();
+let heldBoard = createHeldBoard();
 
 // ======== PIECES ========
 const tetrominoes = {
@@ -56,12 +80,23 @@ const colors = {
     Z: "#FF00FF"
 };
 
+const ghostColors = {
+    I: "rgba(191, 0, 255, .3)",
+    O: "rgba(4, 80, 220, .3)",
+    T: "rgba(213, 244, 43, .3)",
+    J: "rgba(154, 0, 0, .3)",
+    L: "rgba(255, 134, 0, .3)",
+    S: "rgba(1, 254, 1, .3)",
+    Z: "rgba(255, 0, 255, .3)"
+};
+
 function createPiece(type) {
     return {
         matrix: tetrominoes[type].map(row => row.slice()),
         color: colors[type],
         x: 3,
-        y: 0
+        y: 0,
+        type: type
     };
 }
 
@@ -71,11 +106,19 @@ function randomPiece() {
 }
 
 let currentPiece = randomPiece();
+let heldPiece = randomPiece();
+heldPiece.y = 1;
+heldPiece.x = 1;
 
 // ======== DRAWING ========
 function drawCell(x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, 1, 1);
+}
+
+function drawHeldCell(x, y, color) {
+    ctx2.fillStyle = color;
+    ctx2.fillRect(x, y, 1, 1);
 }
 
 function drawGrid(lineColor = "black", lineWidth = .02) {
@@ -96,6 +139,24 @@ function drawGrid(lineColor = "black", lineWidth = .02) {
 
 }
 
+function drawHeldGrid(lineColor = "black", lineWidth = .001) {
+        ctx2.strokeStyle = lineColor;
+        ctx2.lineWidth = lineWidth;
+        for (let x = 0; x <= 6; x += 1) {
+            ctx2.beginPath();
+            ctx2.moveTo(x, 0);
+            ctx2.lineTo(x, 5);
+            ctx2.stroke();
+        }
+        for (let y = 0; y <= 7; y += 1) {
+            ctx2.beginPath();
+            ctx2.moveTo(0, y);
+            ctx2.lineTo(6, y);
+            ctx2.stroke();
+        }
+
+}
+
 function drawBoard() {
     board.forEach((row, y) => {
         row.forEach((value, x) => {
@@ -104,10 +165,26 @@ function drawBoard() {
     });
 }
 
+function drawHeldBoard() {
+    heldBoard.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value !== 0) drawHeldCell(x, y, value);
+        });
+    });
+}
+
 function drawPiece(piece) {
     piece.matrix.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) drawCell(piece.x + x, piece.y + y, piece.color);
+        });
+    });
+}
+
+function drawHeldPiece(piece) {
+    piece.matrix.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value !== 0) drawHeldCell(piece.x + x, piece.y + y, piece.color);
         });
     });
 }
@@ -189,17 +266,44 @@ function clearLines() {
         if (newLevel !== level) {
             level = newLevel;
             levelSelector.textContent = level + 1;
+            swaps += 1;
+            swapsSelector.textContent = swaps;
             dropInterval = Math.max(100, 1000 - level * 80); // gravity speeds up
         }
     }
 }
 
+// ======= GHOST PIECE =========
+
+function calculateGhostPosition(currentPiece, board) {
+    const ghost = structuredClone(currentPiece);
+    ghost.y = currentPiece.y + 1;
+    ghost.color = ghostColors[currentPiece.type]
+    while (!collides(ghost, board)) {
+        ghost.y++;
+    }
+    ghost.y -= 1;
+    return ghost;
+}
+
 // ======== GAME LOOP ========
-function draw() {
+function drawGame() {
+    const ghostPiece = calculateGhostPosition(currentPiece, board);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBoard();
-    drawGrid()
+    drawGrid();
+    drawPiece(ghostPiece);
     drawPiece(currentPiece);
+    if (swaps >= 1) {
+        setHeldBoard();
+    }
+}
+
+function setHeldBoard() {
+    ctx2.clearRect(0, 0, heldCanvas.width, heldCanvas.height);
+    drawHeldBoard();
+    drawHeldGrid();
+    drawHeldPiece(heldPiece);
 }
 
 function update(time = 0) {
@@ -223,7 +327,7 @@ function update(time = 0) {
         dropCounter = 0;
     }
 
-    draw();
+    drawGame();
     requestAnimationFrame(update);
 }
 
@@ -237,11 +341,48 @@ window.addEventListener("keydown", e => {
     if (e.key === "ArrowDown") {
         if (movePiece(0, 1)) score += 1;
     }
+
+    if ((e.code === "Space") && (swaps >= 1)) {
+        heldPieceSwap();
+    }
 });
+
+rotateBtn.addEventListener("click", rotatePiece);
+leftBtn.addEventListener("click", () => {movePiece(-1, 0)});
+holdBtn.addEventListener("click", () => {
+    if (swaps >= 1) {
+        heldPieceSwap();
+    }
+});
+rightBtn.addEventListener("click",() => {movePiece(1, 0)});
+dropBtn.addEventListener("click", () => {
+    if (movePiece(0, 1)) score += 1;
+});
+
+// ======== HELD PIECE =========
+function heldPieceSwap() {
+    currentPiece.matrix = heldPiece.matrix;
+    currentPiece.color = heldPiece.color;
+    currentPiece.type = heldPiece.type;
+    swaps -= 1;
+    swapsSelector.textContent = swaps;
+    const newHeldPiece = randomPiece();
+    newHeldPiece.x = 1;
+    newHeldPiece.y = 1;
+    heldPiece = newHeldPiece;
+    setHeldBoard();
+}
+
 
 // ========== START GAME =========
 startBtnSelector.addEventListener("click", e => {
     startScreen.classList.add("start-screen_inactive");
+    if (screen_size <= 768) {
+        pageTitle.classList.add("page__title_mobile");
+        pageTitle.classList.remove("page__title_active");
+        mobileBtnContainer.classList.add("mobile__btns");
+        mobileBtnContainer.classList.remove("mobile__btns_inactive");
+    }
     update();
 });
 

@@ -1,0 +1,38 @@
+.mobile__btns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, auto); 
+  gap: 5px;
+  width: fit-content; 
+  margin: 20px auto 0; 
+}
+
+.mobile__btns_inactive {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    visibility: hidden;
+}
+
+.mobile__rotate-btn { grid-area: 1 / 2 / 2 / 3; } 
+.mobile__left-btn { grid-area: 2 / 1 / 3 / 2; } 
+.mobile__hold-btn { grid-area: 2 / 2 / 3 / 3; } 
+.mobile__right-btn { grid-area: 2 / 3 / 3 / 4; } 
+.mobile__drop-btn { grid-area: 3 / 2 / 4 / 3; } 
+
+ .mobile__btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #1f6f50;
+  background-color: #1b1b1b;
+  border: 2px solid #1f6f50;
+}
+
+.mobile__btn:hover {
+    color: #1b1b1b;
+    background-color: #1f6f50;
+    border: 1px solid #1b1b1b;
+    cursor: pointer;
+}
