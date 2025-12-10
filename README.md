@@ -69,7 +69,7 @@ The entire experience has been redesigned to work smoothly on mobile devices:
 ## 🆕 Most Recent Updates
 
 ### 📌 Agile/Scrum Production Tracking (Jira)
-![Jira Board](./screenshots/Jira_screenie_tracker1.png)
+![Jira Board](./screenshots/Jira_screenie_tracker.png)
 ![Jira Board](./screenshots/Jira_screenie_tracker2.png)
 
 ### 🎨 Updated Color Theme  
