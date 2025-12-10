@@ -8,6 +8,7 @@ Built to be lightweight, responsive, and customizable.
 ---
 
 ## 🔗 Play Online  
+!! Mobile users will not be able to zoom, as it makes gameplay difficult !!
 👉 **https://yournd.github.io/se_project_tetris_game/**
 
 ---
@@ -69,6 +70,7 @@ The entire experience has been redesigned to work smoothly on mobile devices:
 
 ### 📌 Agile/Scrum Production Tracking (Jira)
 ![Jira Board](./screenshots/Jira_screenie_tracker1.png)
+![Jira Board](./screenshots/Jira_screenie_tracker2.png)
 
 ### 🎨 Updated Color Theme  
 ![New Color Theme](./screenshots/new_theme_screenshot.png)
