@@ -1,3 +1,7 @@
+.no_dbl_tap {
+    touch-action: manipulation;
+}
+
 .mobile__btns {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
