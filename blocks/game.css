@@ -23,6 +23,10 @@
   padding: 0;
 }
 
+.game__piece-title {
+  margin: 0;
+}
+
 #game__held-piece {
   margin: 5px;
 }

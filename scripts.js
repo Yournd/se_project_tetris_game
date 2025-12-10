@@ -1,36 +1,51 @@
-const rows = 20;
-const cols = 10;
-const heldRows = 5;
-const heldCols = 6;
-const heldCellSize = 20;
+// ======= INFO PANEL SELECTORS ========
 const scoreSelector = document.querySelector("#score");
 const levelSelector = document.querySelector("#level");
 const swapsSelector = document.querySelector("#swaps");
+const linesSelector = document.querySelector("#lines");
+
+// ========== START SCREEN SELECTORS ==========
 const startScreen = document.querySelector("#start");
 const startBtnSelector = startScreen.querySelector(".start-screen__btn");
+
+// ============ END SCREEN SELECTORS =============
 const endScreen = document.querySelector("#end");
 const retryBtnSelector = endScreen.querySelector(".end-screen__btn");
-const linesSelector = document.querySelector("#lines");
-const screen_size = window.innerWidth;
+
+// ============== MOBILE BUTTON SELECTORS =============
 const mobileBtnContainer = document.querySelector("#mobile__btns");
 const rotateBtn = mobileBtnContainer.querySelector(".mobile__rotate-btn");
 const leftBtn = mobileBtnContainer.querySelector(".mobile__left-btn");
 const rightBtn = mobileBtnContainer.querySelector(".mobile__right-btn");
 const dropBtn = mobileBtnContainer.querySelector(".mobile__drop-btn");
 const holdBtn = mobileBtnContainer.querySelector(".mobile__hold-btn");
+ 
+// ============== PAGE TITLE SELECTOR ==============
 const pageTitle = document.querySelector("#page__title");
 
+// ============ SCREEN SIZE ============
+const screen_size = window.innerWidth;
+
 // ======== GAME STATE ========
+const rows = 20;
+const cols = 10;
+let cell_size = 0;
+const heldRows = 5;
+const heldCols = 6;
+const heldCellSize = 20;
+const nextRows = 5;
+const nextCols = 6;
+const nextCellSize = 20;
+
 let dropInterval = 1000;   
 let dropCounter = 0;
 let lastTime = 0;
-let cell_size = 0;
-screen_size <= 755 ? cell_size = 20 :  cell_size = 30;
-
 let score = 0;
 let level = 1;
 let linesCleared = 0;
 let swaps = 1;
+
+screen_size <= 755 ? cell_size = 20 :  cell_size = 30;
 
 const line_clear_points = [0, 100, 300, 500, 800];
 
@@ -47,6 +62,12 @@ heldCanvas.width = heldCols * heldCellSize;
 heldCanvas.height = heldRows * heldCellSize;
 ctx2.scale(heldCellSize, heldCellSize);
 
+const nextCanvas = document.querySelector("#game__next-piece");
+const ctx3 = nextCanvas.getContext("2d");
+nextCanvas.width = nextCols * nextCellSize;
+nextCanvas.height = nextRows * nextCellSize;
+ctx3.scale(nextCellSize, nextCellSize);
+
 // ======== BOARD ========
 function createBoard() {
     return Array.from({ length: rows }, () => Array(cols).fill(0));
@@ -56,8 +77,13 @@ function createHeldBoard() {
     return Array.from({ length: heldRows }, () => Array(heldCols).fill(0));
 }
 
+function createNextBoard() {
+    return Array.from({ length: nextRows }, () => Array(nextCols).fill(0));
+}
+
 let board = createBoard();
 let heldBoard = createHeldBoard();
+let nextBoard = createNextBoard();
 
 // ======== PIECES ========
 const tetrominoes = {
@@ -106,9 +132,17 @@ function randomPiece() {
 }
 
 let currentPiece = randomPiece();
-let heldPiece = randomPiece();
-heldPiece.y = 1;
-heldPiece.x = 1;
+let heldPiece; 
+heldPiece = generateSidePiece(heldPiece);
+let nextPiece;
+nextPiece = generateSidePiece(nextPiece);
+
+function generateSidePiece(piece) {
+    piece = randomPiece();
+    piece.x = 1;
+    piece.y = 1;
+    return piece;
+}
 
 // ======== DRAWING ========
 function drawCell(x, y, color) {
@@ -119,6 +153,11 @@ function drawCell(x, y, color) {
 function drawHeldCell(x, y, color) {
     ctx2.fillStyle = color;
     ctx2.fillRect(x, y, 1, 1);
+}
+
+function drawNextCell(x, y, color) {
+    ctx3.fillStyle = color;
+    ctx3.fillRect(x, y, 1, 1);
 }
 
 function drawGrid(lineColor = "black", lineWidth = .02) {
@@ -139,24 +178,6 @@ function drawGrid(lineColor = "black", lineWidth = .02) {
 
 }
 
-function drawHeldGrid(lineColor = "black", lineWidth = .001) {
-        ctx2.strokeStyle = lineColor;
-        ctx2.lineWidth = lineWidth;
-        for (let x = 0; x <= 6; x += 1) {
-            ctx2.beginPath();
-            ctx2.moveTo(x, 0);
-            ctx2.lineTo(x, 5);
-            ctx2.stroke();
-        }
-        for (let y = 0; y <= 7; y += 1) {
-            ctx2.beginPath();
-            ctx2.moveTo(0, y);
-            ctx2.lineTo(6, y);
-            ctx2.stroke();
-        }
-
-}
-
 function drawBoard() {
     board.forEach((row, y) => {
         row.forEach((value, x) => {
@@ -173,6 +194,14 @@ function drawHeldBoard() {
     });
 }
 
+function drawNextBoard() {
+    nextBoard.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value !== 0) drawNextCell(x, y, value);
+        });
+    });
+}
+
 function drawPiece(piece) {
     piece.matrix.forEach((row, y) => {
         row.forEach((value, x) => {
@@ -185,6 +214,14 @@ function drawHeldPiece(piece) {
     piece.matrix.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) drawHeldCell(piece.x + x, piece.y + y, piece.color);
+        });
+    });
+}
+
+function drawNextPiece(piece) {
+    piece.matrix.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value !== 0) drawNextCell(piece.x + x, piece.y + y, piece.color);
         });
     });
 }
@@ -294,6 +331,7 @@ function drawGame() {
     drawGrid();
     drawPiece(ghostPiece);
     drawPiece(currentPiece);
+    setNextBoard();
     if (swaps >= 1) {
         setHeldBoard();
     }
@@ -302,8 +340,13 @@ function drawGame() {
 function setHeldBoard() {
     ctx2.clearRect(0, 0, heldCanvas.width, heldCanvas.height);
     drawHeldBoard();
-    drawHeldGrid();
     drawHeldPiece(heldPiece);
+}
+
+function setNextBoard() {
+    ctx3.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
+    drawNextBoard();
+    drawNextPiece(nextPiece);
 }
 
 function update(time = 0) {
@@ -317,7 +360,8 @@ function update(time = 0) {
             mergePiece(currentPiece, board);
             clearLines();
 
-            currentPiece = randomPiece();
+            currentPiece = nextPiece;
+            nextPiece = generateSidePiece(nextPiece);
             if (collides(currentPiece, board)) {
                 endScreen.classList.add("end-screen");
                 endScreen.classList.remove("end-screen_inactive");
