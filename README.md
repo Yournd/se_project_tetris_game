@@ -55,26 +55,26 @@ The entire experience has been redesigned to work smoothly on mobile devices:
 ## 📷 Screenshots  
 
 ### Start Screen  
-![Tetris Start Screen](./screenshots/screenshot1.png)
+![Tetris Start Screen](./screenshots/start_screenshot.png)
 
 ### Ghost Piece Example  
-![Ghost Piece](./screenshots/screenshot_ghost_piece.png)
+![Ghost Piece](./screenshots/ghost_piece.png)
 
 ### Held Piece Display  
-![Held Piece](./screenshots/screenshot_held_piece.png)
+![Held Piece](./screenshots/held_piece.png)
 
 ---
 
 ## 🆕 Most Recent Updates
 
 ### 📌 Agile/Scrum Production Tracking (Jira)
-![Jira Board](./screenshots/jira_tracking.png)
+![Jira Board](./screenshots/Jira_screenie_tracker1.png)
 
 ### 🎨 Updated Color Theme  
-![New Color Theme](./screenshots/color_theme_update.png)
+![New Color Theme](./screenshots/new_theme_screenshot.png)
 
 ### 📱 Updated Mobile Layout  
-![Updated Mobile UI](./screenshots/mobile_update.png)
+![Updated Mobile UI](./screenshots/mobile_screenshot.png)
 
 ---
 
