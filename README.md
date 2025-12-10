@@ -2,13 +2,53 @@
 [![GitHub Pages](https://img.shields.io/badge/Live_Demo-Online-brightgreen)](#play-online)  
 [![Made With JavaScript](https://img.shields.io/badge/Made_With-JavaScript-yellow)]()
 
-A clean, browser-based clone of the classic **Tetris** game. Built to be lightweight, responsive, and easily extendable.
+A polished, browser-based clone of the classic **Tetris** game — now enhanced with **Ghost Piece**, **Hold Piece**, and full **mobile optimization**.  
+Built to be lightweight, responsive, and customizable.
 
 ---
 
 ## 🔗 Play Online  
-Play the game instantly here:  
 👉 **https://yournd.github.io/se_project_tetris_game/**
+
+---
+
+## 📱 Now Fully Mobile-Optimized  
+The entire experience has been redesigned to work smoothly on mobile devices:
+
+- Responsive layout  
+- Touch controls (optional)  
+- Scales correctly on all screen sizes  
+- Updated mobile-friendly UI (see screenshots below)
+
+---
+
+## 🎮 Features
+
+### 🧱 Core Gameplay
+- Classic falling-block Tetris  
+- Clean, responsive interface  
+- Score, level, and line-clear tracking  
+- Level-based speed scaling  
+- Smooth keyboard controls  
+  - ⬆️ Rotate  
+  - ⬅️ / ➡️ Move left / right  
+  - ⬇️ Soft drop  
+
+### 👻 **Ghost Piece**
+- A translucent outline shows where the current piece will land  
+- Updates based on rotation and movement  
+- Helps with planning and faster play  
+
+### 🔄 **Held Piece**
+- Swap the current piece into a **hold slot**  
+- Retrieve the held piece at any time  
+- Enables advanced strategy and combos  
+
+### 🎛 UI Features
+- Start screen  
+- Game over + retry  
+- Sidebar with next pieces, held piece, and stats  
+- Completely ad-free  
 
 ---
 
@@ -17,30 +57,24 @@ Play the game instantly here:
 ### Start Screen  
 ![Tetris Start Screen](./screenshots/screenshot1.png)
 
----
+### Ghost Piece Example  
+![Ghost Piece](./screenshots/screenshot_ghost_piece.png)
 
-## 🎮 Features
-
-- Classic falling-block gameplay  
-- Dynamic **score**, **level**, and **line-clear** tracking  
-- Level-based speed scaling  
-- Smooth keyboard controls:
-  - ⬆️ Rotate  
-  - ⬅️ / ➡️ Move left/right  
-  - ⬇️ Soft drop  
-- Clean, ad-free interface  
-- **Start** and **Retry** buttons  
-- Works on any modern desktop browser  
+### Held Piece Display  
+![Held Piece](./screenshots/screenshot_held_piece.png)
 
 ---
 
-## 🕹️ How to Play
+## 🆕 Most Recent Updates
 
-1. Click **Start** to begin.  
-2. Use arrow keys to control pieces.  
-3. Complete horizontal lines to earn points and level up.  
-4. The game ends when the stack reaches the top.  
-5. Click **Retry** to try again.
+### 📌 Agile/Scrum Production Tracking (Jira)
+![Jira Board](./screenshots/jira_tracking.png)
+
+### 🎨 Updated Color Theme  
+![New Color Theme](./screenshots/color_theme_update.png)
+
+### 📱 Updated Mobile Layout  
+![Updated Mobile UI](./screenshots/mobile_update.png)
 
 ---
 
