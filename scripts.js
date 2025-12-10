@@ -396,8 +396,9 @@ retryBtnSelector.addEventListener("click", e => {
     lastTime = 0;
 
     score = 0;
-    level = 0;
+    level = 1;
     linesCleared = 0;
+    swaps = 1;
     scoreSelector.textContent = "0";
     levelSelector.textContent = "1";
     linesSelector.textContent = "0";
