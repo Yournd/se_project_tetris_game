@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tetris Game</title>
     <link rel="stylesheet" href="./index.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,8 +20,10 @@
         <p class="game__level">Level: <span id="level">1</span></p>
         <p class="game__lines">Lines: <span id="lines">0</span></p>
         <p class="game__lines">Swaps: <span id="swaps">1</span></p>
-        <p class="game__held-piece-title">Held Piece:</p>
+        <p class="game__piece-title">Held Piece:</p>
         <canvas id="game__held-piece" width="100" height="100"></canvas>
+        <p class="game__piece-title">Next Piece:</p>
+        <canvas id="game__next-piece" width="100" height="100"></canvas>
       </div>
     </div>
     <div id="mobile__btns" class="mobile__btns_inactive">
