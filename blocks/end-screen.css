@@ -22,6 +22,13 @@
 .end-screen__content {
     max-width: 400px;
     text-align: center;
+    font-family: "Audiowide", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.end-screen__game-score {
+    font-size: 1.4rem;
 }
 
 .end-screen__title {
@@ -44,6 +51,9 @@
     color: #1f6f50;
     background-color: #1b1b1b;
     border: 2px solid #1f6f50;
+    font-family: "Audiowide", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .end-screen__btn:hover {

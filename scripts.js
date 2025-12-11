@@ -1,5 +1,6 @@
 // ======= INFO PANEL SELECTORS ========
 const scoreSelector = document.querySelector("#score");
+const finalScoreSelector = document.querySelector("#final-score");
 const levelSelector = document.querySelector("#level");
 const swapsSelector = document.querySelector("#swaps");
 const linesSelector = document.querySelector("#lines");
@@ -363,6 +364,7 @@ function update(time = 0) {
             currentPiece = nextPiece;
             nextPiece = generateSidePiece(nextPiece);
             if (collides(currentPiece, board)) {
+                finalScoreSelector.textContent = score;
                 endScreen.classList.add("end-screen");
                 endScreen.classList.remove("end-screen_inactive");
                 return;
@@ -420,6 +422,7 @@ function heldPieceSwap() {
 
 // ========== START GAME =========
 startBtnSelector.addEventListener("click", e => {
+    finalScoreSelector.textContent = 0;
     startScreen.classList.add("start-screen_inactive");
     if (screen_size <= 768) {
         pageTitle.classList.add("page__title_mobile");
